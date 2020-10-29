@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for cat in categories %}
+    <a href="{% url 'category' cat.id  %}">
+        <h1>{{ cat.name }}</h1>
+    </a>
+    {% endfor %}
+<br><br><br>
+    {% for rev in reviews %}
+        <h1>{{ rev.title }}</h1>
+    {% endfor %}
+    {% if pages %}
+        <div class="text-center">
+           {% for page in pages %}
+
+           	  {% if category %}
+           	  	<a style="margin-top: 10px;" href="{% url 'category_page' category page %}">
+                   {{ page }}
+               	</a>
+           	  {% else %}
+               <a style="margin-top: 10px;" href="{% if query %}{% url 'query_page' page query %}{% else %}{% url 'page' page %}{% endif %}">
+                   {{ page }}
+               </a>
+               {% endif %}
+
+           {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

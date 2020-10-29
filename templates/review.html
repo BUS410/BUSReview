@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	
+
+	<h1>{{rev.title}}</h1>
+	<h2>Рецензия на {{rev.object}}</h2>
+	<h3>Оценка - {{rev.stars}}/10</h3>
+	<img src="{{rev.image_url}}">
+
+
+{% endblock %}
