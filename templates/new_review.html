@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Создание новой рецензии
+{% endblock %}
+
+
+{% block content %}
+	<form method="POST" action="{% url 'new_review' %}">
+		{% csrf_token %}
+		<h4><label>Заголовок: </label><br><input type="text" name="title" required></h4>
+		<label>Ссылка на картинку объекта рецензии: </label><br><input type="url" name="image_url"><br><br>
+		<label>Автор: </label><br><input type="text" name="author">
+		<h4><label>На что рецензия: </label><br><input type="text" name="object" required></h4>
+		<h4><label>Оценка: </label><br><input type="number" name="stars" required></h4>
+		<h4><label>Категория: </label><br><select name="category" required>
+				<option value="0">Напишу в поле справа</option>
+				{% for cat in categories %}
+					<option value="{{ cat.id }}">{{ cat.name }}</option>
+				{% endfor %}
+			</select>
+			<input type="text" name="new_category">
+		</h4><br>
+		<button type="submit">Сохранить</button>
+	</form>
+{% endblock %}

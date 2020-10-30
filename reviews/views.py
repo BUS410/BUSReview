@@ -1,7 +1,7 @@
 from math import ceil
 
 from django.shortcuts import render
-from django.http import HttpResponseBadRequest, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .models import Review, Category, Comment
@@ -45,13 +45,10 @@ def category(request, pk, page=1):
 
 
 def review(request, pk):
-    if request.method == 'POST':  # Post comment
-        try:
-            Comment(review_id=pk, stars=request.POST['stars'],
-                    content=request.POST['content'],
-                    author=request.POST['author']).save()
-        except:
-            return HttpResponseBadRequest
+    if request.method == 'POST':
+        Comment(review_id=pk, stars=request.POST['stars'],
+                content=request.POST['content'],
+                author=request.POST['author']).save()
         return HttpResponseRedirect(reverse('review',  args=(pk,)))
 
     rev = Review.objects.get(id=pk)
@@ -60,4 +57,29 @@ def review(request, pk):
     return render(request, 'review.html', {
         'rev': rev,
         'comments': comments,
+    })
+
+
+def new_review(request):
+    categories = Category.objects.order_by('name')
+
+    if request.method == 'POST':
+        if request.POST['category'] == '0':
+            current_category = Category(name=request.POST['new_category'])
+            current_category.save()
+        else:
+            current_category = Category.objects.get(id=request.POST['category'])
+        rev = Review(title=request.POST['title'],
+                     object=request.POST['object'],
+                     stars=request.POST['stars'],
+                     author=request.POST['author'],
+                     category=current_category)
+        if 'image_url' in request.POST:
+            rev.image_url = request.POST['image_url']
+        rev.save()
+
+        return HttpResponseRedirect(reverse('index'))
+
+    return render(request, 'new_review.html', {
+        'categories': categories,
     })

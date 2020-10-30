@@ -9,6 +9,7 @@
 	{% endif %}<br>
 	<h2>Рецензия на {{rev.object}}</h2>
 	<h3>Оценка - {{rev.stars}}/10</h3>
+	<h3>Категория - <a href="{% url 'category' rev.category.id %}">{{rev.category}}</a></h3>
 	<p>{{ rev.content }}</p>
 	{% for comm in comments %}
 		<hr>
