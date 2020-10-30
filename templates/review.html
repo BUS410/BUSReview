@@ -4,9 +4,30 @@
 	
 
 	<h1>{{rev.title}}</h1>
+	{% if rev.image_url %}
+		<img src="{{rev.image_url}}">
+	{% endif %}<br>
 	<h2>Рецензия на {{rev.object}}</h2>
 	<h3>Оценка - {{rev.stars}}/10</h3>
-	<img src="{{rev.image_url}}">
-
+	<p>{{ rev.content }}</p>
+	{% for comm in comments %}
+		<hr>
+		{% if comm.author %}
+			<span>{{ comm.author }}</span><br>
+		{% endif %}
+		<span>{{ comm.stars }}/10</span><br>
+		<p>{{ comm.content }}</p>
+	{% endfor %}
+	{% if not comments %}
+		<hr>
+		<h3>Комментарии не найдены, станьте первым!</h3>
+	{% endif %}
+	<form method="POST" action="{% url 'review' rev.id %}">
+		{% csrf_token %}
+		<input type="text" placeholder="Автор" name="author"><br>
+		<input type="number" placeholder="Оценка" required name="stars"><br>
+		<textarea name="content" placeholder="Текст комментария" required></textarea><br>
+		<button>Отправить</button>
+	</form>
 
 {% endblock %}
