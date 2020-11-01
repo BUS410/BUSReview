@@ -11,4 +11,6 @@ urlpatterns = [
     path('category/<int:pk>/p=<int:page>', views.category, name='category_page'),
     path('review/<int:pk>', views.review, name='review'),
     path('new_review', views.new_review, name='new_review'),
+    path('comments/<int:review_id>/', views.comments, name='comments'),
+    path('comments/<int:review_id>/p=<int:page>', views.comments, name='comments_page'),
 ]

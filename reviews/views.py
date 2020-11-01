@@ -35,7 +35,7 @@ def category(request, pk, page=1):
 
     categories = Category.objects.all()
     count_pages = ceil(len(reviews) / ELEMENT_IN_PAGE)
-    reviews = reviews[(page - 1) * ELEMENT_IN_PAGE:page * ELEMENT_IN_PAGE]
+    reviews = reviews[(page - 1) * ELEMENT_IN_PAGE: page * ELEMENT_IN_PAGE]
     return render(request, 'index.html', {
         'reviews': reviews,
         'categories': categories,
@@ -52,11 +52,11 @@ def review(request, pk):
         return HttpResponseRedirect(reverse('review',  args=(pk,)))
 
     rev = Review.objects.get(id=pk)
-    comments = Comment.objects.filter(review=rev).order_by('-id')[:5]
+    review_comments = Comment.objects.filter(review=rev).order_by('-id')[:5]
 
     return render(request, 'review.html', {
         'rev': rev,
-        'comments': comments,
+        'comments': review_comments,
     })
 
 
@@ -73,6 +73,7 @@ def new_review(request):
                      object=request.POST['object'],
                      stars=request.POST['stars'],
                      author=request.POST['author'],
+                     content=request.POST['content'],
                      category=current_category)
         if 'image_url' in request.POST:
             rev.image_url = request.POST['image_url']
@@ -82,4 +83,16 @@ def new_review(request):
 
     return render(request, 'new_review.html', {
         'categories': categories,
+    })
+
+
+def comments(request, review_id, page=1):
+    review_comments = Comment.objects.filter(review_id=review_id).order_by('-id')
+    count_pages = ceil(len(review_comments) / ELEMENT_IN_PAGE)
+    review_comments = review_comments[(page - 1) * ELEMENT_IN_PAGE: page * ELEMENT_IN_PAGE]
+    review = Review.objects.get(id=review_id)
+    return render(request, 'comments.html', {
+        'review': review,
+        'comments': review_comments,
+        'pages': range(1, count_pages + 1) if count_pages > 1 else False,
     })

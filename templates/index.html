@@ -12,32 +12,33 @@
 
 
 {% block content %}
+    <h3>Категории</h3>
     {% for cat in categories %}
     <a href="{% url 'category' cat.id  %}">
         <h1>{{ cat.name }}</h1>
     </a>
     {% endfor %}
 <br><br><br>
+    <h2>Рецензии</h2>
     {% for rev in reviews %}
       <a href="{% url 'review' rev.id %}">
         <h1>{{ rev.title }}</h1>
       </a>
     {% endfor %}
     {% if pages %}
-        <div class="text-center">
-           {% for page in pages %}
+        <label>Страницы: </label>
+         {% for page in pages %}
 
-           	  {% if category %}
-           	  	<a style="margin-top: 10px;" href="{% url 'category_page' category.id page %}">
-                   {{ page }}
-               	</a>
-           	  {% else %}
-               <a style="margin-top: 10px;" href="{% if query %}{% url 'query_page' page query %}{% else %}{% url 'page' page %}{% endif %}">
-                   {{ page }}
-               </a>
-               {% endif %}
+         	  {% if category %}
+         	  	<a style="margin-top: 10px;" href="{% url 'category_page' category.id page %}">
+                 {{ page }}
+             	</a>
+         	  {% else %}
+             <a style="margin-top: 10px;" href="{% if query %}{% url 'query_page' page query %}{% else %}{% url 'page' page %}{% endif %}">
+                 {{ page }}
+             </a>
+             {% endif %}
 
-           {% endfor %}
-        </div>
+         {% endfor %}
     {% endif %}
 {% endblock %}

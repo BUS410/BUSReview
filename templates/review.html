@@ -9,7 +9,12 @@
 	{% endif %}<br>
 	<h2>Рецензия на {{rev.object}}</h2>
 	<h3>Оценка - {{rev.stars}}/10</h3>
-	<h3>Категория - <a href="{% url 'category' rev.category.id %}">{{rev.category}}</a></h3>
+	{% if rev.author %}
+		<h3>Автор - {{rev.author}}</h3>
+	{% endif %}
+	{% if rev.category %}
+		<h3>Категория - <a href="{% url 'category' rev.category.id %}">{{rev.category}}</a></h3>
+	{% endif %}
 	<p>{{ rev.content }}</p>
 	{% for comm in comments %}
 		<hr>
@@ -22,6 +27,8 @@
 	{% if not comments %}
 		<hr>
 		<h3>Комментарии не найдены, станьте первым!</h3>
+	{% else  %}
+		<a href="{% url 'comments' rev.id %}">Посмотреть все комментарии</a>
 	{% endif %}
 	<form method="POST" action="{% url 'review' rev.id %}">
 		{% csrf_token %}

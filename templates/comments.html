@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+	{% if comments %}
+		<h2>Комментарии к рецензии <a href="{% url 'review' review.id %}">{{ review.title }}</a></h2>
+	{% else %}
+		<h3>Комментарии не найдены, станьте первым!</h3>
+	{% endif %}
+	{% for comm in comments %}
+		<hr>
+		{% if comm.author %}
+			<span>{{ comm.author }}</span><br>
+		{% endif %}
+		<span>{{ comm.stars }}/10</span><br>
+		<p>{{ comm.content }}</p>
+	{% endfor %}
+	{% if not comments %}
+		<hr>
+		<h3>Комментарии не найдены, станьте первым!</h3>
+	{% endif %}
+	{% if pages %}
+        <div class="text-center">
+           {% for page in pages %}
+               <a style="margin-top: 10px;" href="{% url 'comments_page' review.id page %}">
+                   {{ page }}
+               </a>
+           {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
