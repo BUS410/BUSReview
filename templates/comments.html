@@ -15,10 +15,6 @@
 		<span>{{ comm.stars }}/10</span><br>
 		<p>{{ comm.content }}</p>
 	{% endfor %}
-	{% if not comments %}
-		<hr>
-		<h3>Комментарии не найдены, станьте первым!</h3>
-	{% endif %}
 	{% if pages %}
         <div class="text-center">
            {% for page in pages %}

@@ -7,13 +7,63 @@
             BUS-Review
         {% endblock %}
     </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </head>
 <body>
-	<a href="{% url 'index' %}"><h2>Главная</h2></a>
-	<a href="{% url 'new_review' %}"><h2>Написать рецензию</h2></a>
-	<br><br>
-    {% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 50px;">
+      <a class="navbar-brand" href="{% url 'index' %}">BUS-Review</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    {% endblock %}
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'index' %}">Все рецензии</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'new_review' %}">Написать рецензию</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="{% url 'index' %}" method="POST">
+          {% csrf_token %}
+          <input class="form-control mr-sm-2" type="search" name="query" placeholder="Заголовок рецензии" aria-label="Search" value="{{ query }}">
+          <button class="btn btn-primary my-2 my-sm-0" type="submit">Поиск</button>
+        </form>
+      </div>
+    </nav>
+    <div id="wrapper" style="min-height: 100vh;" class="container-fluid">
+      
+        {% block content %}
+        {% endblock %}
+       
+    </div>
+
+    {% if pages %}
+        <div class="text-center">
+           {% for page in pages %}
+
+            {% if category %}
+              <a style="margin-top: 10px;" href="{% url 'category_page' category.id page %}">
+                 {{ page }}
+              </a>
+            {% else %}
+               <a class="btn btn-link btn-outline-primary" style="margin-top: 10px;" href="{% if query %}{% url 'query_page' page query %}{% else %}{% url 'page' page %}{% endif %}">
+                   {{ page }}
+               </a>
+            {% endif %}
+
+           {% endfor %}
+        </div>
+    {% endif %}
+    <footer class="footer" style="padding-bottom: 50px;">
+      <hr>
+      <div class="container-fluid row">
+        <a target="_blank" style="text-align: center;" href="https://vk.com/bus_410" class="col-6">Вконтакте разработчика</a>
+        <a target="_blank" style="text-align: center;" href="https://github.com/BUS410/BUS-Review" class="col-6">Github проекта</a>
+      </div>
+    </footer>
 </body>
 </html>

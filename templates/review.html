@@ -2,40 +2,47 @@
 
 {% block content %}
 	
-
-	<h1>{{rev.title}}</h1>
-	{% if rev.image_url %}
-		<img src="{{rev.image_url}}">
-	{% endif %}<br>
-	<h2>Рецензия на {{rev.object}}</h2>
-	<h3>Оценка - {{rev.stars}}/10</h3>
-	{% if rev.author %}
-		<h3>Автор - {{rev.author}}</h3>
-	{% endif %}
-	{% if rev.category %}
-		<h3>Категория - <a href="{% url 'category' rev.category.id %}">{{rev.category}}</a></h3>
-	{% endif %}
-	<p>{{ rev.content }}</p>
-	{% for comm in comments %}
+	<div class="container bg-light">
+		<div class="row">
+			<div class="col-lg-4 col-padding">
+				<img src="{{ rev.image_url }}" style="max-width: 100%">
+			</div>
+			<div class="col-lg-8 col-padding bg-light">
+				<h1>{{ rev.title }}</h1>
+				<h2>Рецензия на {{rev.object}}</h2>
+				<h3>Оценка - {{rev.stars}}/10</h3>
+				{% if rev.author %}
+					<h3>Автор - {{rev.author}}</h3>
+				{% endif %}
+				{% if rev.category %}
+					<h3>Категория - <a href="{% url 'category' rev.category.id %}">{{rev.category}}</a></h3>
+				{% endif %}
+			</div>
+		</div><br>
+		
+		<p>{{ rev.content }}</p>
 		<hr>
-		{% if comm.author %}
-			<span>{{ comm.author }}</span><br>
+		<h3>Комментрии</h3>
+		{% for comm in comments %}
+			{% if comm.author %}
+				<span>{{ comm.author }}</span><br>
+			{% endif %}
+			<span>{{ comm.stars }}/10</span><br>
+			<p>{{ comm.content }}</p>
+		{% endfor %}
+		{% if not comments %}
+			<hr>
+			<h3>Комментарии не найдены, станьте первым!</h3>
+		{% else  %}
+			<a href="{% url 'comments' rev.id %}">Посмотреть все комментарии</a>
 		{% endif %}
-		<span>{{ comm.stars }}/10</span><br>
-		<p>{{ comm.content }}</p>
-	{% endfor %}
-	{% if not comments %}
-		<hr>
-		<h3>Комментарии не найдены, станьте первым!</h3>
-	{% else  %}
-		<a href="{% url 'comments' rev.id %}">Посмотреть все комментарии</a>
-	{% endif %}
-	<form method="POST" action="{% url 'review' rev.id %}">
-		{% csrf_token %}
-		<input type="text" placeholder="Автор" name="author"><br>
-		<input type="number" placeholder="Оценка" required name="stars"><br>
-		<textarea name="content" placeholder="Текст комментария" required></textarea><br>
-		<button>Отправить</button>
-	</form>
+		<form method="POST" action="{% url 'review' rev.id %}">
+			{% csrf_token %}
+			<input type="text" placeholder="Автор" name="author"><br>
+			<input type="number" placeholder="Оценка" required name="stars"><br>
+			<textarea name="content" placeholder="Текст комментария" required></textarea><br>
+			<button>Отправить</button>
+		</form>
+	</div>
 
 {% endblock %}
