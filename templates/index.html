@@ -29,16 +29,21 @@
               
             </ul>
         </div>
-        <div class="col-lg-9 col-padding bg-light">
-            <h1>Рецензии</h1><hr>
-            {% if not reviews %}
-                <h3>Рецензии не найденны</h3>
-            {% endif %}
-            {% for rev in reviews %}
-              <a href="{% url 'review' rev.id %}">
-                <h2>{{ rev.title }}</h2>
-              </a>
-            {% endfor %}
-        </div>
+        {% if not reviews %}
+          <h3>Рецензии не найденны</h3>
+        {% else %}
+          <div class="card col-lg-9 col-padding">
+              <div class="card-header"><h2>Рецензии</h2></div>
+              <ul class="list-group list-group-flush">
+                {% for rev in reviews %}
+                  <li class="list-group-item">
+                    <a href="{% url 'review' rev.id %}">
+                      <h2>{{ rev.title }}</h2>
+                    </a>
+                  </li>
+                {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
     </div>
 {% endblock %}

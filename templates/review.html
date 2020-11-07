@@ -5,10 +5,14 @@
 	<div class="container bg-light">
 		<div class="row">
 			<div class="col-lg-4 col-padding">
-				<img src="{{ rev.image_url }}" style="max-width: 100%">
+				{% if rev.iamge_url %}
+					<img src="{{ rev.image_url }}" style="max-width: 100%;">
+				{% else %}
+					<img src="https://repairsyourself.ru/wp-content/uploads/2020/03/404.png" style="max-width: 100%;">
+				{% endif %}
 			</div>
 			<div class="col-lg-8 col-padding bg-light">
-				<h1>{{ rev.title }}</h1>
+				<h1>{{ rev.title }}</h1><hr>
 				<h2>Рецензия на {{rev.object}}</h2>
 				<h3>Оценка - {{rev.stars}}/10</h3>
 				{% if rev.author %}
@@ -22,13 +26,14 @@
 		
 		<p>{{ rev.content }}</p>
 		<hr>
-		<h3>Комментрии</h3>
+		<h3>Комментрии</h3><hr>
 		{% for comm in comments %}
 			{% if comm.author %}
 				<span>{{ comm.author }}</span><br>
 			{% endif %}
 			<span>{{ comm.stars }}/10</span><br>
 			<p>{{ comm.content }}</p>
+			<hr>
 		{% endfor %}
 		{% if not comments %}
 			<hr>
@@ -36,6 +41,7 @@
 		{% else  %}
 			<a href="{% url 'comments' rev.id %}">Посмотреть все комментарии</a>
 		{% endif %}
+		<hr>
 		<form method="POST" action="{% url 'review' rev.id %}">
 			{% csrf_token %}
 			<input type="text" placeholder="Автор" name="author"><br>
