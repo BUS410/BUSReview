@@ -21,7 +21,7 @@ class Review(models.Model):
     stars = models.IntegerField(verbose_name='Оценка')
     content = models.TextField(verbose_name='Содержание')
     image_url = models.URLField(verbose_name='Ссылка на картинку',
-                                blank=True, null=True)
+                                default="https://repairsyourself.ru/wp-content/uploads/2020/03/404.png")
     author = models.CharField(verbose_name='Автор', max_length=80,
                               blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,

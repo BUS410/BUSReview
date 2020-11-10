@@ -5,18 +5,17 @@
 	<div class="container bg-light">
 		<div class="row">
 			<div class="col-lg-4 col-padding">
-				{% if rev.iamge_url %}
-					<img src="{{ rev.image_url }}" style="max-width: 100%;">
-				{% else %}
-					<img src="https://repairsyourself.ru/wp-content/uploads/2020/03/404.png" style="max-width: 100%;">
-				{% endif %}
+				<img src="{{ rev.image_url }}" style="max-width: 100%;">
 			</div>
 			<div class="col-lg-8 col-padding bg-light">
 				<h1>{{ rev.title }}</h1><hr>
-				<h2>Рецензия на {{rev.object}}</h2>
+				<h2>Рецензия на <a href="{% url 'by_object' rev.object %}">{{ rev.object }}</a></h2>
+                {% if rating %}
+                    <h3>Рейтинг рецензии - {{ rating }}%</h3>
+                {% endif %}
 				<h3>Оценка - {{rev.stars}}/10</h3>
 				{% if rev.author %}
-					<h3>Автор - {{rev.author}}</h3>
+					<h3>Автор - <a href="{% url 'by_author' rev.author %}">{{rev.author}}</a></h3>
 				{% endif %}
 				{% if rev.category %}
 					<h3>Категория - <a href="{% url 'category' rev.category.id %}">{{rev.category}}</a></h3>
@@ -29,9 +28,9 @@
 		<h3>Комментрии</h3><hr>
 		{% for comm in comments %}
 			{% if comm.author %}
-				<span>{{ comm.author }}</span><br>
+				<strong>{{ comm.author }}</strong><br>
 			{% endif %}
-			<span>{{ comm.stars }}/10</span><br>
+			<em>{{ comm.stars }}/10</em><br>
 			<p>{{ comm.content }}</p>
 			<hr>
 		{% endfor %}
@@ -44,10 +43,19 @@
 		<hr>
 		<form method="POST" action="{% url 'review' rev.id %}">
 			{% csrf_token %}
-			<input type="text" placeholder="Автор" name="author"><br>
-			<input type="number" placeholder="Оценка" required name="stars"><br>
-			<textarea name="content" placeholder="Текст комментария" required></textarea><br>
-			<button>Отправить</button>
+			<div class="form-group">
+				<label for="author">Автор</label>
+				<input type="text" class="form-control" name="author" id="author">
+			</div>
+			<div class="form-group">
+				<label for="stars">Оценка</label>
+				<input type="range" min="1" max="10" class="form-control" id="stars" required name="stars">
+			</div>
+			<div class="form-group">
+				<label for="content">Текст комментария</label>
+    			<textarea required class="form-control" name="content" id="content" rows="3"></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary">Отправить</button>
 		</form>
 	</div>
 

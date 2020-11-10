@@ -9,21 +9,40 @@
 {% block content %}
 	<form method="POST" action="{% url 'new_review' %}">
 		{% csrf_token %}
-		<h4><label>Заголовок: </label><br><input type="text" name="title" required></h4>
-		<label>Ссылка на картинку объекта рецензии: </label><br><input type="url" name="image_url"><br><br>
-		<label>Автор: </label><br><input type="text" name="author">
-		<h4><label>На что рецензия: </label><br><input type="text" name="object" required></h4>
-		<h4><label>Оценка: </label><br><input type="number" name="stars" required></h4>
-		<h4><label>Категория: </label><br><select name="category" required>
-				<option value="0">Напишу в поле справа</option>
+        <div class="form-group">
+            <label for="title">Заголовок:</label>
+            <input type="text" name="title" id="title" class="form-control" required>
+        </div>
+		<div class="form-group">
+            <label for="image_url">Ссылка на картинку объекта рецензии:</label>
+            <input type="url" class="form-control" id="image_url" name="image_url">
+        </div>
+        <div class="form-group">
+            <label for="author">Автор:</label>
+            <input type="text" class="form-control" name="author" id="author">
+        </div>
+        <div class="form-group">
+            <label for="object">На что рецензия:</label>
+            <input type="text" id="object" name="object" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="stars">Оценка:</label>
+            <input type="range" name="stars" id="stars" class="form-control" min="1" max="10" required>
+        </div>
+		<div class="form-group">
+            <label for="category">Категория:</label>
+            <select name="category" required id="category" class="form-control">
+				<option value="0">Напишу в поле снизу</option>
 				{% for cat in categories %}
 					<option value="{{ cat.id }}">{{ cat.name }}</option>
 				{% endfor %}
 			</select>
-			<input type="text" name="new_category">
-		</h4><br>
-		<label>Текст рецензии: </label><br>
-		<textarea name="content" cols="60" rows="20"></textarea><br>
-		<button type="submit">Сохранить</button>
+			<input type="text" name="new_category" class="form-control">
+		</div>
+		<div class="form-group">
+            <label for="content">Текст рецензии:</label>
+    		<textarea name="content" id="content" cols="60" rows="20" class="form-control"></textarea>
+        </div>
+		<button type="submit" class="btn btn-primary">Сохранить</button>
 	</form>
 {% endblock %}

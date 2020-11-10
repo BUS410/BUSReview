@@ -47,3 +47,31 @@
         {% endif %}
     </div>
 {% endblock %}
+
+{% block pagination %}
+    {% if pages %}
+        <div class="text-center">
+           {% for page in pages %}
+
+            {% if category %}
+                <a class="btn btn-link btn-outline-primary" style="margin-top: 10px;" href="{% url 'category_page' category.id page %}">
+                 {{ page }}
+                </a>
+            {% elif author %}
+                <a class="btn btn-link btn-outline-primary" style="margin-top: 10px;" href="{% url 'by_author_page' author page %}">
+                 {{ page }}
+                </a>
+            {% elif object %}
+                <a class="btn btn-link btn-outline-primary" style="margin-top: 10px;" href="{% url 'by_object_page' object page %}">
+                 {{ page }}
+                </a>
+            {% else %}
+                <a class="btn btn-link btn-outline-primary" style="margin-top: 10px;" href="{% if query %}{% url 'query_page' page query %}{% else %}{% url 'page' page %}{% endif %}">
+                   {{ page }}
+                </a>
+            {% endif %}
+
+           {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

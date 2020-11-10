@@ -41,23 +41,8 @@
        
     </div>
 
-    {% if pages %}
-        <div class="text-center">
-           {% for page in pages %}
-
-            {% if category %}
-              <a style="margin-top: 10px;" href="{% url 'category_page' category.id page %}">
-                 {{ page }}
-              </a>
-            {% else %}
-               <a class="btn btn-link btn-outline-primary" style="margin-top: 10px;" href="{% if query %}{% url 'query_page' page query %}{% else %}{% url 'page' page %}{% endif %}">
-                   {{ page }}
-               </a>
-            {% endif %}
-
-           {% endfor %}
-        </div>
-    {% endif %}
+    {% block pagination %}
+    {% endblock %}
     <footer class="footer" style="padding-bottom: 50px;">
       <hr>
       <div class="container-fluid row">
