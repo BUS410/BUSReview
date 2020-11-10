@@ -10,6 +10,7 @@
 			<div class="col-lg-8 col-padding bg-light">
 				<h1>{{ rev.title }}</h1><hr>
 				<h2>Рецензия на <a href="{% url 'by_object' rev.object %}">{{ rev.object }}</a></h2>
+                <h3>Время публикации - {{ rev.date }}</h3>
                 {% if rating %}
                     <h3>Рейтинг рецензии - {{ rating }}%</h3>
                 {% endif %}
@@ -28,9 +29,10 @@
 		<h3>Комментрии</h3><hr>
 		{% for comm in comments %}
 			{% if comm.author %}
-				<strong>{{ comm.author }}</strong><br>
+				<strong>Автор - {{ comm.author }}</strong><br>
 			{% endif %}
-			<em>{{ comm.stars }}/10</em><br>
+            <strong>Оценка рецензии - {{ comm.stars }}/10</strong><br>
+            <em>Время публикации - {{ comm.date }}</em><br>
 			<p>{{ comm.content }}</p>
 			<hr>
 		{% endfor %}

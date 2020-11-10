@@ -17,6 +17,7 @@ class Category(models.Model):
 
 class Review(models.Model):
     title = models.CharField(verbose_name='Заголовок', max_length=255)
+    date = models.DateTimeField('Дата публикации', auto_now_add=True)
     object = models.CharField(verbose_name='Объект', max_length=255)
     stars = models.IntegerField(verbose_name='Оценка')
     content = models.TextField(verbose_name='Содержание')
@@ -43,6 +44,7 @@ class Comment(models.Model):
                               blank=True, null=True)
     content = models.TextField(verbose_name='Содержание')
     stars = models.IntegerField(verbose_name='Оценка')
+    date = models.DateTimeField('Дата публикации', auto_now_add=True)
     review = models.ForeignKey(Review, on_delete=models.CASCADE,
                                verbose_name='Рецензия')
 

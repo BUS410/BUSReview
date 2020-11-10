@@ -8,12 +8,13 @@
 		<h3>Комментарии не найдены, станьте первым!</h3>
 	{% endif %}
 	{% for comm in comments %}
-		<hr>
+        <hr>
 		{% if comm.author %}
-			<span>{{ comm.author }}</span><br>
-		{% endif %}
-		<span>{{ comm.stars }}/10</span><br>
-		<p>{{ comm.content }}</p>
+            <strong>Автор - {{ comm.author }}</strong><br>
+        {% endif %}
+        <strong>Оценка рецензии - {{ comm.stars }}/10</strong><br>
+        <em>Время публикации - {{ comm.date }}</em><br>
+        <p>{{ comm.content }}</p>
 	{% endfor %}
 {% endblock %}
 {% block pagination %}
